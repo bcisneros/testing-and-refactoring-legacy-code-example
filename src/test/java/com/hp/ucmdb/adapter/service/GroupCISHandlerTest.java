@@ -27,6 +27,7 @@ public class GroupCISHandlerTest {
 		when(request.getParameter(anyString())).thenReturn(null);
 		assertThat(handler.shouldGenerateDefaultBean(request), is(true));
 	}
+	
 	@Test
 	@Parameters({GroupCISHandler.BATCH_ID, GroupCISHandler.START_TIME, GroupCISHandler.END_TIME, GroupCISHandler.PAGE})
 	public void should_not_generate_default_bean_when_parameter_is_not_null(String parameter) throws Exception {

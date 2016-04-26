@@ -19,11 +19,9 @@ public class GroupCISHandler {
     /**
      */
     public boolean shouldGenerateDefaultBean(HttpServletRequest request) {
-        return request.getParameter(GroupCISHandler.BATCH_ID) == null
-                && request.getParameter(GroupCISHandler.START_TIME) == null
-                && request.getParameter(GroupCISHandler.END_TIME) == null
-                && request.getParameter(GroupCISHandler.PAGE) == null;
+        return allParametersAreNull(request, GroupCISHandler.BATCH_ID, GroupCISHandler.START_TIME, GroupCISHandler.END_TIME, GroupCISHandler.PAGE);
     }
+
 
     /**
      * @return Get the recent three days summary information.
@@ -53,5 +51,15 @@ public class GroupCISHandler {
             bean.setPage(Integer.parseInt(page));
         }
         return bean;
+    }
+    
+    private boolean allParametersAreNull(HttpServletRequest request, String... parameters) {
+    	
+    	for (String parameter : parameters) {
+			if (request.getParameter(parameter) != null) {
+				return false;
+			}
+		}
+    	return true;
     }
 }
