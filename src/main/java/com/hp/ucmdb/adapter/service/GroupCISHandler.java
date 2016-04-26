@@ -16,11 +16,18 @@ public class GroupCISHandler {
     public static final String SEARCH_FILE = "searchFile";
     private static final int BEFORE_TIME = 3;
 
-    /**
-     */
-    public boolean shouldGenerateDefaultBean(HttpServletRequest request) {
-        return allParametersAreNull(request, GroupCISHandler.BATCH_ID, GroupCISHandler.START_TIME, GroupCISHandler.END_TIME, GroupCISHandler.PAGE);
-    }
+	/**
+	 * Determines if is required to generate a default bean depending on the
+	 * existing request parameters
+	 * 
+	 * @param request
+	 *            A {@code HttpServletRequest} object to extract the parameters
+	 * @return true when all parameters are null and false when at least one is
+	 *         not null
+	 */
+	public boolean shouldGenerateDefaultBean(HttpServletRequest request) {
+		return allParametersAreNull(request, BATCH_ID, START_TIME, END_TIME, PAGE);
+	}
 
 
     /**
@@ -54,7 +61,6 @@ public class GroupCISHandler {
     }
     
     private boolean allParametersAreNull(HttpServletRequest request, String... parameters) {
-    	
     	for (String parameter : parameters) {
 			if (request.getParameter(parameter) != null) {
 				return false;

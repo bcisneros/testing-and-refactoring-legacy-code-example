@@ -1,5 +1,9 @@
 package com.hp.ucmdb.adapter.service;
 
+import static com.hp.ucmdb.adapter.service.GroupCISHandler.BATCH_ID;
+import static com.hp.ucmdb.adapter.service.GroupCISHandler.END_TIME;
+import static com.hp.ucmdb.adapter.service.GroupCISHandler.PAGE;
+import static com.hp.ucmdb.adapter.service.GroupCISHandler.START_TIME;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyString;
@@ -29,7 +33,7 @@ public class GroupCISHandlerTest {
 	}
 	
 	@Test
-	@Parameters({GroupCISHandler.BATCH_ID, GroupCISHandler.START_TIME, GroupCISHandler.END_TIME, GroupCISHandler.PAGE})
+	@Parameters({BATCH_ID, START_TIME, END_TIME, PAGE})
 	public void should_not_generate_default_bean_when_parameter_is_not_null(String parameter) throws Exception {
 		when(request.getParameter(parameter)).thenReturn(ANY_STRING);
 		assertThat(handler.shouldGenerateDefaultBean(request), is(false));
