@@ -3,6 +3,7 @@ package com.hp.ucmdb.adapter.service;
 import com.hp.ucmdb.adapter.bean.GroupCISBean;
 import com.hp.ucmdb.adapter.util.TimeHelper;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,7 +15,10 @@ public class GroupCISHandler {
     public static final String START_TIME = "startTime";
     public static final String BATCH_ID = "batchId";
     public static final String SEARCH_FILE = "searchFile";
-    private static final int BEFORE_TIME = 3;
+    protected static final int BEFORE_TIME = 3;
+    
+    @Autowired
+    private TimeHelper timeHelper;
 
 	/**
 	 * Determines if is required to generate a default bean depending on the
@@ -43,13 +47,12 @@ public class GroupCISHandler {
 
 
 	protected String getEndTime() {
-		return TimeHelper.getCurrentTime();
+		return timeHelper.todayAsString();
 	}
 
 
 	protected String getStartTime() {
-		return TimeHelper
-                .GetBeforeTime(GroupCISHandler.BEFORE_TIME);
+		return timeHelper.dateAsStringBeforeTodayBy(BEFORE_TIME);
 	}
 
     /**
