@@ -33,7 +33,6 @@ public class GroupCISHandlerTest {
 	@InjectMocks 
 	private GroupCISHandler realHandler = new GroupCISHandler();
 	
-	private GroupCISHandler handler = new TestableGroupCISHandler();
 	HttpServletRequest request = mock(HttpServletRequest.class);
 	public String startTime;
 	public String today;
@@ -80,19 +79,5 @@ public class GroupCISHandlerTest {
 		assertThat(bean.getPage(), is(1));
 	}
 	
-	private class TestableGroupCISHandler extends GroupCISHandler {
-
-		@Override
-		protected String getStartTime() {
-			return startTime;
-		}
-
-		@Override
-		protected String getEndTime() {
-			return today;
-		}
-		
-		
-	}
 	
 }

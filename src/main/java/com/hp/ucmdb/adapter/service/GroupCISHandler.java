@@ -39,23 +39,14 @@ public class GroupCISHandler {
      */
     public GroupCISBean handleDefaultParams() {
         GroupCISBean bean = new GroupCISBean();
-        bean.setStartTime(getStartTime());
-        bean.setEndTime(getEndTime());
+        bean.setStartTime(timeHelper.dateAsStringBeforeTodayBy(BEFORE_TIME));
+        bean.setEndTime(timeHelper.todayAsString());
         bean.setPage(1);
         return bean;
     }
 
 
-	protected String getEndTime() {
-		return timeHelper.todayAsString();
-	}
-
-
-	protected String getStartTime() {
-		return timeHelper.dateAsStringBeforeTodayBy(BEFORE_TIME);
-	}
-
-    /**
+	/**
      */
     public GroupCISBean handleRequestParams(HttpServletRequest request) {
         GroupCISBean bean = new GroupCISBean();
