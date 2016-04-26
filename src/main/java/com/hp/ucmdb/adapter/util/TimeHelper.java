@@ -30,10 +30,11 @@ public class TimeHelper {
      * @return Get Current Time.
      */
     public static String getCurrentTime() {
-        Date currentTime = new Date();
+    	throw new RuntimeException("Do not call this method on a unit test");
+    	/*Date currentTime = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
         String dateString = formatter.format(currentTime);
-        return dateString;
+        return dateString;*/
     }
 
 
@@ -59,12 +60,13 @@ public class TimeHelper {
      * @return Get the before time.
      */
     public static String GetBeforeTime(int day) {
-        Date currentTime = new Date();
+        throw new RuntimeException("Do not call this method on a unit test");
+    	/*Date currentTime = new Date();
         Date beforeTime = new Date();
         beforeTime.setHours(currentTime.getHours() - day * HOURS);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
         String dateString = formatter.format(beforeTime);
-        return dateString;
+        return dateString;*/
     }
 
 }

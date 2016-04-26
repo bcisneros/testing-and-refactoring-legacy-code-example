@@ -35,12 +35,22 @@ public class GroupCISHandler {
      */
     public GroupCISBean handleDefaultParams() {
         GroupCISBean bean = new GroupCISBean();
-        bean.setStartTime(TimeHelper
-                .GetBeforeTime(GroupCISHandler.BEFORE_TIME));
-        bean.setEndTime(TimeHelper.getCurrentTime());
+        bean.setStartTime(getStartTime());
+        bean.setEndTime(getEndTime());
         bean.setPage(1);
         return bean;
     }
+
+
+	protected String getEndTime() {
+		return TimeHelper.getCurrentTime();
+	}
+
+
+	protected String getStartTime() {
+		return TimeHelper
+                .GetBeforeTime(GroupCISHandler.BEFORE_TIME);
+	}
 
     /**
      */
