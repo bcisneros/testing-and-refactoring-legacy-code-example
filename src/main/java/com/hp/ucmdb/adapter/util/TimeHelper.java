@@ -28,6 +28,7 @@ public class TimeHelper {
 
     /**
      * @return Get Current Time.
+     * @deprecated Use {@link TimeHelper#todayAsString()} instead
      */
     public static String getCurrentTime() {
     	throw new RuntimeException("Do not call this method on a unit test");
@@ -58,6 +59,7 @@ public class TimeHelper {
 
     /**
      * @return Get the before time.
+     * @deprecated Use {@link TimeHelper#dateAsStringBeforeTodayBy(int days)} instead
      */
     public static String GetBeforeTime(int day) {
         throw new RuntimeException("Do not call this method on a unit test");
