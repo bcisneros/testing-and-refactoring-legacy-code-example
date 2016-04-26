@@ -28,5 +28,23 @@ public class GroupCISHandlerTest {
 		when(request.getParameter(GroupCISHandler.BATCH_ID)).thenReturn(ANY_STRING);
 		assertThat(handler.shouldGenerateDefaultBean(request), is(false));
 	}
+	
+	@Test
+	public void should_not_generate_default_bean_when_start_time_parameter_is_not_null() throws Exception {
+		when(request.getParameter(GroupCISHandler.START_TIME)).thenReturn(ANY_STRING);
+		assertThat(handler.shouldGenerateDefaultBean(request), is(false));
+	}
+	
+	@Test
+	public void should_not_generate_default_bean_when_end_time_parameter_is_not_null() throws Exception {
+		when(request.getParameter(GroupCISHandler.END_TIME)).thenReturn(ANY_STRING);
+		assertThat(handler.shouldGenerateDefaultBean(request), is(false));
+	}
+	
+	@Test
+	public void should_not_generate_default_bean_when_page_paramater_is_not_null() throws Exception {
+		when(request.getParameter(GroupCISHandler.PAGE)).thenReturn(ANY_STRING);
+		assertThat(handler.shouldGenerateDefaultBean(request), is(false));
+	}
 
 }
