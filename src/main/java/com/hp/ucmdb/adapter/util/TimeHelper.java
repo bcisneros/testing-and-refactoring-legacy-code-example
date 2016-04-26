@@ -69,4 +69,16 @@ public class TimeHelper {
         return dateString;*/
     }
 
+
+	public String todayAsString() {
+		return TimeHelper.getCurrentTime();
+		
+	}
+
+
+	public String dateAsStringBeforeTodayBy(int days) {
+		return TimeHelper.GetBeforeTime(days);
+		
+	}
+
 }
