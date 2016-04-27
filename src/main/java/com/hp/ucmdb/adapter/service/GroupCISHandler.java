@@ -51,6 +51,19 @@ public class GroupCISHandler {
 		return bean;
 	}
 
+	/**
+	 * Creates a new {@link GroupCISBean} object based on the request parameters
+	 * 
+	 * If the Batch Id parameter is empty (or null) it is set up to an empty
+	 * string
+	 * 
+	 * If page parameter is an invalid integer number, it will be set up to 1
+	 * 
+	 * @param request
+	 *            the request to obtain the parameters
+	 * @return A initialized {@link GroupCISBean} object with the request
+	 *         parameter values
+	 */
 	public GroupCISBean handleRequestParams(HttpServletRequest request) {
 		GroupCISBean bean = new GroupCISBean();
 		String batchId = request.getParameter(GroupCISHandler.BATCH_ID);
