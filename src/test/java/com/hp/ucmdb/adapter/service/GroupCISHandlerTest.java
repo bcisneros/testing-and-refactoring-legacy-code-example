@@ -60,7 +60,7 @@ public class GroupCISHandlerTest {
 	@Test
 	public void should_setup_start_time_by_default_three_days() throws Exception {
 		startTime = "2015/09/10";
-		when(timeHelper.dateAsStringBeforeTodayBy(GroupCISHandler.BEFORE_TIME)).thenReturn(startTime);
+		when(timeHelper.dateAsStringBeforeTodayBy(GroupCISHandler.THREE_DAYS_BEFORE)).thenReturn(startTime);
 		GroupCISBean bean = realHandler.handleDefaultParams();
 		assertThat(bean.getStartTime(), is(startTime));
 	}
@@ -78,6 +78,5 @@ public class GroupCISHandlerTest {
 		GroupCISBean bean = realHandler.handleDefaultParams();
 		assertThat(bean.getPage(), is(1));
 	}
-	
 	
 }

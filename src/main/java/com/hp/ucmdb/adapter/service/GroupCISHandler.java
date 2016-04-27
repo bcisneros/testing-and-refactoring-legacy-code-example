@@ -15,7 +15,7 @@ public class GroupCISHandler {
     public static final String START_TIME = "startTime";
     public static final String BATCH_ID = "batchId";
     public static final String SEARCH_FILE = "searchFile";
-    protected static final int BEFORE_TIME = 3;
+    protected static final int THREE_DAYS_BEFORE = 3;
     
     @Autowired
     private TimeHelper timeHelper;
@@ -39,7 +39,7 @@ public class GroupCISHandler {
      */
     public GroupCISBean handleDefaultParams() {
         GroupCISBean bean = new GroupCISBean();
-        bean.setStartTime(timeHelper.dateAsStringBeforeTodayBy(BEFORE_TIME));
+        bean.setStartTime(timeHelper.dateAsStringBeforeTodayBy(THREE_DAYS_BEFORE));
         bean.setEndTime(timeHelper.todayAsString());
         bean.setPage(1);
         return bean;
