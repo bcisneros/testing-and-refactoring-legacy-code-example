@@ -13,5 +13,21 @@ public class GroupCISBeanTest {
 		bean.setPage(8);
 		assertThat(bean.getStartIndex(), CoreMatchers.is(71));
 	}
+	
+	@Test
+	public void should_show_zero_of_zero_message_when_total_count_is_zero() throws Exception {
+		GroupCISBean bean = new GroupCISBean();
+		bean.setTotalCount(0);
+		assertThat(bean.getCountTitle(), CoreMatchers.is("Showing 0 of 0"));
+	}
+	
+	@Test
+	public void should_show_count_title_according_start_index_end_index_and_total_count() throws Exception {
+		GroupCISBean bean = new GroupCISBean();
+		bean.setTotalCount(100);
+		bean.setPage(8);
+		bean.setEndIndex(80);
+		assertThat(bean.getCountTitle(), CoreMatchers.is("Showing 71 to 80 of 100"));
+	}
 
 }
