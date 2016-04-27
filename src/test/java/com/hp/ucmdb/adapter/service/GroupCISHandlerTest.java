@@ -28,7 +28,7 @@ public class GroupCISHandlerTest {
 
 	@Test
 	@Parameters({ BATCH_ID, START_TIME, END_TIME, PAGE })
-	public void should_return_false_when_batch_id_parameter_is_not_null(String parameter) {
+	public void should_return_false_when_any_parameter_is_not_null(String parameter) {
 		when(request.getParameter(parameter)).thenReturn(ANY_STRING);
 		assertThat(handler.shouldGenerateDefaultBean(request), is(false));
 	}
