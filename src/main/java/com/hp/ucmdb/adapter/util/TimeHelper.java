@@ -100,14 +100,21 @@ public class TimeHelper {
 	 * @return A string that represents a date
 	 */
 	public String dateAsStringBeforeTodayBy(int days) {
-		return formatter.format(new Date(clock.today().getTime() - TimeUnit.DAYS.toMillis(days)));
+		return formatter.format(new Date(millisecondsBetween(clock.today(), days)));
 
 	}
 
+	/**
+	 * Retrieves the next date of a given date
+	 * 
+	 * @param givenDate
+	 *            The base date to calculate its next date
+	 * @return A String representation of the next date in yyyy/MM/dd format
+	 */
 	public String nextDateOf(String givenDate) {
 
 		try {
-			return formatter.format(new Date(formatter.parse(givenDate).getTime() + TimeUnit.DAYS.toMillis(1)));
+			return formatter.format(new Date(millisecondsBetween(formatter.parse(givenDate), -1)));
 		} catch (ParseException e) {
 			CIMLogger.error(e);
 		}
@@ -115,4 +122,7 @@ public class TimeHelper {
 		return todayAsString();
 	}
 
+	private long millisecondsBetween(Date aGivenDate, int daysInThePast) {
+		return aGivenDate.getTime() - TimeUnit.DAYS.toMillis(daysInThePast);
+	}
 }
