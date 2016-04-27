@@ -30,6 +30,12 @@ public class CIMLogger {
     }
 
     public static void error(Throwable t) {
-        error("", t);
+        throw new RuntimeException("Do no call this method on a Unit test");
+    	//error("", t);
     }
+
+	public void logError(Throwable throwable) {
+		CIMLogger.error(throwable);
+		
+	}
 }

@@ -1,7 +1,10 @@
 package com.hp.ucmdb.adapter.util;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.util.Date;
 
@@ -18,6 +21,8 @@ public class TimeHelperTest {
 	private static final int ONE_DAY = 1;
 	@Mock
 	private Clock clock;
+	@Mock
+	private CIMLogger cimLogger;
 
 	@InjectMocks
 	private TimeHelper timeHelper = new TimeHelper();
@@ -49,6 +54,7 @@ public class TimeHelperTest {
 	@Test
 	public void should_retrieve_current_date_when_given_date_has_invalid_format() throws Exception {
 		assertThat(timeHelper.nextDateOf("2016-04-25"), is(EXPECTED_TODAY_AS_STRING));
+		verify(cimLogger, times(1)).logError(any(Throwable.class));
 	}
 
 }

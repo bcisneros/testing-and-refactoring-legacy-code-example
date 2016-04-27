@@ -34,6 +34,9 @@ public class TimeHelper {
 	@Autowired
 	private Clock clock;
 
+	@Autowired
+	private CIMLogger cimLogger = new CIMLogger();
+
 	/**
 	 * @return Get Current Time.
 	 * @deprecated Use {@link TimeHelper#todayAsString()} instead
@@ -116,7 +119,7 @@ public class TimeHelper {
 		try {
 			return formatter.format(new Date(millisecondsBetween(formatter.parse(givenDate), -1)));
 		} catch (ParseException e) {
-			CIMLogger.error(e);
+			cimLogger.logError(e);
 		}
 
 		return todayAsString();
