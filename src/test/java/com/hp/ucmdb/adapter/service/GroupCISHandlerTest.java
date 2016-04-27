@@ -4,6 +4,7 @@ import static com.hp.ucmdb.adapter.service.GroupCISHandler.BATCH_ID;
 import static com.hp.ucmdb.adapter.service.GroupCISHandler.END_TIME;
 import static com.hp.ucmdb.adapter.service.GroupCISHandler.PAGE;
 import static com.hp.ucmdb.adapter.service.GroupCISHandler.START_TIME;
+import static com.hp.ucmdb.adapter.service.GroupCISHandler.THREE_DAYS_BEFORE;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyString;
@@ -11,6 +12,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,7 +22,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import com.hp.ucmdb.adapter.bean.GroupCISBean;
 import com.hp.ucmdb.adapter.util.TimeHelper;
@@ -52,7 +53,7 @@ public class GroupCISHandlerTest {
 
 	@Before
 	public void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
+		initMocks(this);
 	}
 
 	@Test
@@ -71,7 +72,7 @@ public class GroupCISHandlerTest {
 	@Test
 	public void should_setup_start_time_by_default_three_days() throws Exception {
 		startTime = ANY_DATE_STRING;
-		when(timeHelper.dateAsStringBeforeTodayBy(GroupCISHandler.THREE_DAYS_BEFORE)).thenReturn(startTime);
+		when(timeHelper.dateAsStringBeforeTodayBy(THREE_DAYS_BEFORE)).thenReturn(startTime);
 		GroupCISBean bean = handler.handleDefaultParams();
 		assertThat(bean.getStartTime(), is(startTime));
 	}

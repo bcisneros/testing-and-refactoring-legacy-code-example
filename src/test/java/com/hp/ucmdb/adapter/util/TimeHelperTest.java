@@ -5,6 +5,8 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Date;
 
@@ -12,8 +14,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 
 public class TimeHelperTest {
 
@@ -31,9 +31,9 @@ public class TimeHelperTest {
 
 	@Before
 	public void setUp() {
-		MockitoAnnotations.initMocks(this);
+		initMocks(this);
 		today = java.sql.Date.valueOf("2016-04-27");
-		Mockito.when(clock.today()).thenReturn(today);
+		when(clock.today()).thenReturn(today);
 	}
 
 	@Test
