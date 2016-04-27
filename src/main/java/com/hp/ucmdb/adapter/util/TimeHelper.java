@@ -33,11 +33,10 @@ public class TimeHelper {
      * @deprecated Use {@link TimeHelper#todayAsString()} instead
      */
     public static String getCurrentTime() {
-    	throw new RuntimeException("Do not call this method on a unit test");
-    	/*Date currentTime = new Date();
+    	Date currentTime = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
         String dateString = formatter.format(currentTime);
-        return dateString;*/
+        return dateString;
     }
 
 
@@ -75,8 +74,16 @@ public class TimeHelper {
 
 
 	public String todayAsString() {
-		return TimeHelper.getCurrentTime();
+		Date currentTime = today();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        String dateString = formatter.format(currentTime);
+        return dateString;
 		
+	}
+
+
+	protected Date today() {
+		return new Date();
 	}
 
 
