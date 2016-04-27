@@ -129,5 +129,12 @@ public class GroupCISHandlerTest {
 		GroupCISBean bean = handler.handleRequestParams(request);
 		assertThat(bean.getPage(), is(1));
 	}
+	
+	@Test
+	public void should_set_page_to_one_when_request_parameter_is_empty_new_string() throws Exception {
+		when(request.getParameter(PAGE)).thenReturn(new String(""));
+		GroupCISBean bean = handler.handleRequestParams(request);
+		assertThat(bean.getPage(), is(1));
+	}
 
 }
