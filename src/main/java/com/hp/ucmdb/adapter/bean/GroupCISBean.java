@@ -86,8 +86,7 @@ public class GroupCISBean {
      * @return the startIndex
      */
     public int getStartIndex() {
-        int page = getPage();
-        return (page - 1) * PageHelper.PER_PAGE_COUNT + 1;
+        return (getPage() - 1) * PageHelper.PER_PAGE_COUNT + 1;
     }
 
     /**
