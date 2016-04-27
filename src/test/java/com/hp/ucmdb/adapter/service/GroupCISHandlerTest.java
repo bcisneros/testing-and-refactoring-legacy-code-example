@@ -5,18 +5,22 @@ import static com.hp.ucmdb.adapter.service.GroupCISHandler.END_TIME;
 import static com.hp.ucmdb.adapter.service.GroupCISHandler.PAGE;
 import static com.hp.ucmdb.adapter.service.GroupCISHandler.START_TIME;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import com.hp.ucmdb.adapter.bean.GroupCISBean;
@@ -31,6 +35,9 @@ public class GroupCISHandlerTest {
 	private static final String ANY_DATE_STRING = "2015/09/10";
 	@Mock
 	TimeHelper timeHelper;
+	@Mock
+	Logger logger;
+	
 	@InjectMocks
 	private GroupCISHandler handler = new GroupCISHandler();
 
@@ -135,6 +142,14 @@ public class GroupCISHandlerTest {
 		when(request.getParameter(PAGE)).thenReturn(new String(""));
 		GroupCISBean bean = handler.handleRequestParams(request);
 		assertThat(bean.getPage(), is(1));
+	}
+	
+	@Test
+	public void should_set_page_to_one_when_request_parameter_is_not_an_integer() throws Exception {
+		when(request.getParameter(PAGE)).thenReturn("not an integer string");
+		GroupCISBean bean = handler.handleRequestParams(request);
+		assertThat(bean.getPage(), is(1));
+		verify(logger, times(1)).warn(anyString());
 	}
 
 }
