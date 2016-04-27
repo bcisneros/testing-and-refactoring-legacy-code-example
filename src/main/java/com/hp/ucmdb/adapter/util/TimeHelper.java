@@ -72,18 +72,29 @@ public class TimeHelper {
 		return dateString;
 	}
 
+	/**
+	 * Retrieves the current date with a yyyy/MM/dd format
+	 * 
+	 * @return A string that represents the current date
+	 */
 	public String todayAsString() {
 		return formatter.format(today());
+
+	}
+
+	/**
+	 * Retrieves a date in past given a number of days
+	 * 
+	 * @param days
+	 *            Number of days before the current date
+	 * @return A string that represents a date
+	 */
+	public String dateAsStringBeforeTodayBy(int days) {
+		return formatter.format(new Date(today().getTime() - TimeUnit.DAYS.toMillis(days)));
 
 	}
 
 	protected Date today() {
 		return new Date();
 	}
-
-	public String dateAsStringBeforeTodayBy(int days) {
-		return formatter.format(new Date(today().getTime() - TimeUnit.DAYS.toMillis(days)));
-
-	}
-
 }
