@@ -1,7 +1,7 @@
 package com.hp.ucmdb.adapter.util;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 import java.util.Date;
 
@@ -38,6 +38,11 @@ public class TimeHelperTest {
 	@Test
 	public void should_throw_an_exception_when_retrieve_days_before_today() throws Exception {
 		assertThat(timeHelper.dateAsStringBeforeTodayBy(ONE_DAY), is("2016/04/26"));
+	}
+	
+	@Test
+	public void should_retrieve_next_day_of_given_date() throws Exception {
+		assertThat(timeHelper.nextDateOf("2016/04/25"), is("2016/04/26"));
 	}
 
 }

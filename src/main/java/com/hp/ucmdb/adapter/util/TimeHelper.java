@@ -98,4 +98,8 @@ public class TimeHelper {
 
 	}
 
+	public String nextDateOf(String givenDate) {
+		return TimeHelper.GetNextDay(givenDate);
+	}
+
 }
