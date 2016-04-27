@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class Clock {
 
 	public Date today() {
-		throw new RuntimeException("Unit test could not call this");
+		return new Date();
 	}
 
 }
