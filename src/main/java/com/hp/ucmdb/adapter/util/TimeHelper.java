@@ -105,14 +105,9 @@ public class TimeHelper {
 	}
 
 	public String nextDateOf(String givenDate) {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 
 		try {
-			Date currentTime = formatter.parse(givenDate);
-			currentTime.setHours(currentTime.getHours() + HOURS);
-			logger.debug("GetNextDay:" + currentTime);
-
-			return formatter.format(currentTime);
+			return formatter.format(new Date(formatter.parse(givenDate).getTime() + TimeUnit.DAYS.toMillis(1)));
 		} catch (ParseException e) {
 			CIMLogger.error(e);
 		}
