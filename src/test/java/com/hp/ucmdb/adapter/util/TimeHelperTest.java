@@ -16,13 +16,13 @@ public class TimeHelperTest {
 	@Test
 	public void should_throw_an_exception_when_today_is_retrieving() {
 		today = java.sql.Date.valueOf("2016-04-27");
-		String todayAsString = timeHelper.todayAsString();
-		assertThat(todayAsString, is("2016/04/27"));
+		assertThat(timeHelper.todayAsString(), is("2016/04/27"));
 	}
 
-	@Test(expected = RuntimeException.class)
+	@Test
 	public void should_throw_an_exception_when_retrieve_days_before_today() throws Exception {
-		new TimeHelper().dateAsStringBeforeTodayBy(ONE_DAY);
+		today = java.sql.Timestamp.valueOf("2016-04-27 01:00:00");
+		assertThat(timeHelper.dateAsStringBeforeTodayBy(ONE_DAY), is("2016/04/26"));
 	}
 
 	private class TestableTimeHelper extends TimeHelper {

@@ -63,13 +63,12 @@ public class TimeHelper {
      * @deprecated Use {@link TimeHelper#dateAsStringBeforeTodayBy(int days)} instead
      */
     public static String GetBeforeTime(int day) {
-        throw new RuntimeException("Do not call this method on a unit test");
-    	/*Date currentTime = new Date();
+    	Date currentTime = new Date();
         Date beforeTime = new Date();
         beforeTime.setHours(currentTime.getHours() - day * HOURS);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
         String dateString = formatter.format(beforeTime);
-        return dateString;*/
+        return dateString;
     }
 
 
@@ -88,7 +87,12 @@ public class TimeHelper {
 
 
 	public String dateAsStringBeforeTodayBy(int days) {
-		return TimeHelper.GetBeforeTime(days);
+		Date currentTime = today();
+        Date beforeTime = today();
+        beforeTime.setHours(currentTime.getHours() - days * HOURS);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        String dateString = formatter.format(beforeTime);
+        return dateString;
 		
 	}
 
