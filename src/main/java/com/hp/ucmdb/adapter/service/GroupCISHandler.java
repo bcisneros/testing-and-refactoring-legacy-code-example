@@ -34,16 +34,18 @@ public class GroupCISHandler {
 	}
 
 
-    /**
-     * @return Get the recent three days summary information.
-     */
-    public GroupCISBean handleDefaultParams() {
-        GroupCISBean bean = new GroupCISBean();
-        bean.setStartTime(timeHelper.dateAsStringBeforeTodayBy(THREE_DAYS_BEFORE));
-        bean.setEndTime(timeHelper.todayAsString());
-        bean.setPage(1);
-        return bean;
-    }
+	/**
+	 * Get the recent three days summary information.
+	 * 
+	 * @return a {@link GroupCISBean} object with default data
+	 */
+	public GroupCISBean handleDefaultParams() {
+		GroupCISBean bean = new GroupCISBean();
+		bean.setStartTime(timeHelper.dateAsStringBeforeTodayBy(THREE_DAYS_BEFORE));
+		bean.setEndTime(timeHelper.todayAsString());
+		bean.setPage(1);
+		return bean;
+	}
 
 
 	/**
