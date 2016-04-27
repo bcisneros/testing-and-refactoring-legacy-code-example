@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 
 public class TimeHelperTest {
 
+	private static final String EXPECTED_TODAY_AS_STRING = "2016/04/27";
 	private static final int ONE_DAY = 1;
 	@Mock
 	private Clock clock;
@@ -32,7 +33,7 @@ public class TimeHelperTest {
 
 	@Test
 	public void should_throw_an_exception_when_today_is_retrieving() {
-		assertThat(timeHelper.todayAsString(), is("2016/04/27"));
+		assertThat(timeHelper.todayAsString(), is(EXPECTED_TODAY_AS_STRING));
 	}
 
 	@Test
@@ -43,6 +44,11 @@ public class TimeHelperTest {
 	@Test
 	public void should_retrieve_next_day_of_given_date() throws Exception {
 		assertThat(timeHelper.nextDateOf("2016/04/25"), is("2016/04/26"));
+	}
+	
+	@Test
+	public void should_retrieve_current_date_when_given_date_has_invalid_format() throws Exception {
+		assertThat(timeHelper.nextDateOf("2016-04-25"), is(EXPECTED_TODAY_AS_STRING));
 	}
 
 }

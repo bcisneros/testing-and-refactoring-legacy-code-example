@@ -45,6 +45,12 @@ public class TimeHelper {
 		return dateString;
 	}
 
+	/**
+	 * 
+	 * @param Time
+	 * @return
+	 * @deprecated
+	 */
 	public static String GetNextDay(String Time) {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 
@@ -99,7 +105,19 @@ public class TimeHelper {
 	}
 
 	public String nextDateOf(String givenDate) {
-		return TimeHelper.GetNextDay(givenDate);
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+
+		try {
+			Date currentTime = formatter.parse(givenDate);
+			currentTime.setHours(currentTime.getHours() + HOURS);
+			logger.debug("GetNextDay:" + currentTime);
+
+			return formatter.format(currentTime);
+		} catch (ParseException e) {
+			CIMLogger.error(e);
+		}
+
+		return todayAsString();
 	}
 
 }
