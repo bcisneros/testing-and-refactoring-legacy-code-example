@@ -20,7 +20,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import com.hp.ucmdb.adapter.bean.GroupCISBean;
@@ -32,12 +31,14 @@ import junitparams.Parameters;
 @RunWith(JUnitParamsRunner.class)
 public class GroupCISHandlerTest {
 
+	private static final String NOT_AN_INTEGER_STRING = "not an integer string";
+	private static final String STRING_WITH_STRING_CONSTRUCTOR = new String("");
 	private static final String ANY_DATE_STRING = "2015/09/10";
 	@Mock
 	TimeHelper timeHelper;
 	@Mock
 	Logger logger;
-	
+
 	@InjectMocks
 	private GroupCISHandler handler = new GroupCISHandler();
 
@@ -47,6 +48,7 @@ public class GroupCISHandlerTest {
 
 	private static final String ANY_STRING = "any string";
 	private static final String EMPTY_STRING = "";
+	private static final String NULL_PAGE = null;
 
 	@Before
 	public void setUp() throws Exception {
@@ -124,32 +126,16 @@ public class GroupCISHandlerTest {
 	}
 
 	@Test
-	public void should_set_page_to_one_when_request_parameter_is_null() throws Exception {
-		when(request.getParameter(PAGE)).thenReturn(null);
-		GroupCISBean bean = handler.handleRequestParams(request);
-		assertThat(bean.getPage(), is(1));
-	}
-
-	@Test
-	public void should_set_page_to_one_when_request_parameter_is_empty() throws Exception {
-		when(request.getParameter(PAGE)).thenReturn(EMPTY_STRING);
-		GroupCISBean bean = handler.handleRequestParams(request);
-		assertThat(bean.getPage(), is(1));
-	}
-	
-	@Test
-	public void should_set_page_to_one_when_request_parameter_is_empty_new_string() throws Exception {
-		when(request.getParameter(PAGE)).thenReturn(new String(""));
-		GroupCISBean bean = handler.handleRequestParams(request);
-		assertThat(bean.getPage(), is(1));
-	}
-	
-	@Test
-	public void should_set_page_to_one_when_request_parameter_is_not_an_integer() throws Exception {
-		when(request.getParameter(PAGE)).thenReturn("not an integer string");
+	@Parameters(method = "invalidPageParametersProvider")
+	public void should_set_page_to_one_when_request_parameter_is_invalid(String parameterValue) throws Exception {
+		when(request.getParameter(PAGE)).thenReturn(parameterValue);
 		GroupCISBean bean = handler.handleRequestParams(request);
 		assertThat(bean.getPage(), is(1));
 		verify(logger, times(1)).warn(anyString());
 	}
 
+	protected Object[] invalidPageParametersProvider() {
+		return new Object[] { new Object[] { NULL_PAGE }, new Object[] { EMPTY_STRING },
+				new Object[] { STRING_WITH_STRING_CONSTRUCTOR }, new Object[] { NOT_AN_INTEGER_STRING } };
+	}
 }

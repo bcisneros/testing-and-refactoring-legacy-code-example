@@ -10,20 +10,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.hp.ucmdb.adapter.bean.GroupCISBean;
 import com.hp.ucmdb.adapter.util.TimeHelper;
 
-
 public class GroupCISHandler {
 
-    public static final String PAGE = "page";
-    public static final String END_TIME = "endTime";
-    public static final String START_TIME = "startTime";
-    public static final String BATCH_ID = "batchId";
-    public static final String SEARCH_FILE = "searchFile";
-    protected static final int THREE_DAYS_BEFORE = 3;
-    
-    @Autowired
-    private TimeHelper timeHelper;
-    
-    @Autowired
+	public static final String PAGE = "page";
+	public static final String END_TIME = "endTime";
+	public static final String START_TIME = "startTime";
+	public static final String BATCH_ID = "batchId";
+	public static final String SEARCH_FILE = "searchFile";
+	protected static final int THREE_DAYS_BEFORE = 3;
+
+	@Autowired
+	private TimeHelper timeHelper;
+
+	@Autowired
 	private Logger logger = Logger.getLogger(getClass());
 
 	/**
@@ -38,7 +37,6 @@ public class GroupCISHandler {
 	public boolean shouldGenerateDefaultBean(HttpServletRequest request) {
 		return allParametersAreNull(request, BATCH_ID, START_TIME, END_TIME, PAGE);
 	}
-
 
 	/**
 	 * Get the recent three days summary information.
@@ -61,22 +59,20 @@ public class GroupCISHandler {
 		bean.setEndTime(request.getParameter(GroupCISHandler.END_TIME));
 
 		String page = request.getParameter(GroupCISHandler.PAGE);
-		if (isNotEmpty(page)) {
-			try {
-				bean.setPage(Integer.parseInt(page));
-			} catch (NumberFormatException e) {
-				logger.warn("Invalid format for page parameter. It was setted up to default value 1");
-			}
+		try {
+			bean.setPage(Integer.parseInt(page));
+		} catch (NumberFormatException e) {
+			logger.warn("Invalid format for page parameter. It was setted up to default value 1");
 		}
 		return bean;
 	}
-    
-    private boolean allParametersAreNull(HttpServletRequest request, String... parameters) {
-    	for (String parameter : parameters) {
+
+	private boolean allParametersAreNull(HttpServletRequest request, String... parameters) {
+		for (String parameter : parameters) {
 			if (request.getParameter(parameter) != null) {
 				return false;
 			}
 		}
-    	return true;
-    }
+		return true;
+	}
 }
