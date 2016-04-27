@@ -12,8 +12,13 @@ import static org.mockito.Mockito.when;
 import javax.servlet.http.HttpServletRequest;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
+
+@RunWith(JUnitParamsRunner.class)
 public class GroupCISHandlerTest {
 
 	private static final String ANY_STRING = "Hello Skippy!";
@@ -22,29 +27,12 @@ public class GroupCISHandlerTest {
 	private HttpServletRequest request = mock(HttpServletRequest.class);
 
 	@Test
-	public void should_return_false_when_batch_id_parameter_is_not_null() {
-		when(request.getParameter(BATCH_ID)).thenReturn(ANY_STRING);
+	@Parameters({ BATCH_ID, START_TIME, END_TIME, PAGE })
+	public void should_return_false_when_batch_id_parameter_is_not_null(String parameter) {
+		when(request.getParameter(parameter)).thenReturn(ANY_STRING);
 		assertThat(handler.shouldGenerateDefaultBean(request), is(false));
 	}
-	
-	@Test
-	public void should_return_false_when_start_time_parameter_is_not_null() {
-		when(request.getParameter(START_TIME)).thenReturn(ANY_STRING);
-		assertThat(handler.shouldGenerateDefaultBean(request), is(false));
-	}
-	
-	@Test
-	public void should_return_false_when_end_time_parameter_is_not_null() {
-		when(request.getParameter(END_TIME)).thenReturn(ANY_STRING);
-		assertThat(handler.shouldGenerateDefaultBean(request), is(false));
-	}
-	
-	@Test
-	public void should_return_false_when_page_parameter_is_not_null() {
-		when(request.getParameter(PAGE)).thenReturn(ANY_STRING);
-		assertThat(handler.shouldGenerateDefaultBean(request), is(false));
-	}
-	
+
 	@Test
 	public void should_return_true_when_all_parameters_are_null() {
 		when(request.getParameter(Mockito.anyString())).thenReturn(NULL_STRING);
