@@ -19,7 +19,7 @@ public class TimeHelperTest {
 	private Clock clock;
 
 	@InjectMocks
-	private TimeHelper realTimeHelper = new TimeHelper();
+	private TimeHelper timeHelper = new TimeHelper();
 
 	public Date today;
 
@@ -32,12 +32,12 @@ public class TimeHelperTest {
 
 	@Test
 	public void should_throw_an_exception_when_today_is_retrieving() {
-		assertThat(realTimeHelper.todayAsString(), is("2016/04/27"));
+		assertThat(timeHelper.todayAsString(), is("2016/04/27"));
 	}
 
 	@Test
 	public void should_throw_an_exception_when_retrieve_days_before_today() throws Exception {
-		assertThat(realTimeHelper.dateAsStringBeforeTodayBy(ONE_DAY), is("2016/04/26"));
+		assertThat(timeHelper.dateAsStringBeforeTodayBy(ONE_DAY), is("2016/04/26"));
 	}
 
 }
