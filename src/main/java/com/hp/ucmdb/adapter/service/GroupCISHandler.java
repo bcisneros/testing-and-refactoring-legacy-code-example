@@ -47,24 +47,19 @@ public class GroupCISHandler {
 		return bean;
 	}
 
+	public GroupCISBean handleRequestParams(HttpServletRequest request) {
+		GroupCISBean bean = new GroupCISBean();
+		String batchId = request.getParameter(GroupCISHandler.BATCH_ID);
+		bean.setBatchId(StringUtils.isNotEmpty(batchId) ? batchId : "");
+		bean.setStartTime(request.getParameter(GroupCISHandler.START_TIME));
+		bean.setEndTime(request.getParameter(GroupCISHandler.END_TIME));
 
-	/**
-     */
-    public GroupCISBean handleRequestParams(HttpServletRequest request) {
-        GroupCISBean bean = new GroupCISBean();
-        String batchId = request.getParameter(GroupCISHandler.BATCH_ID);
-        bean.setBatchId(StringUtils.isNotEmpty(batchId) ? batchId : "");
-        bean
-                .setStartTime(request
-                        .getParameter(GroupCISHandler.START_TIME));
-        bean.setEndTime(request.getParameter(GroupCISHandler.END_TIME));
-
-        String page = request.getParameter(GroupCISHandler.PAGE);
-        if (page != null && page != "") {
-            bean.setPage(Integer.parseInt(page));
-        }
-        return bean;
-    }
+		String page = request.getParameter(GroupCISHandler.PAGE);
+		if (page != null && page != "") {
+			bean.setPage(Integer.parseInt(page));
+		}
+		return bean;
+	}
     
     private boolean allParametersAreNull(HttpServletRequest request, String... parameters) {
     	for (String parameter : parameters) {
