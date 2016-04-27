@@ -17,6 +17,7 @@ package com.hp.ucmdb.adapter.util;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -24,76 +25,65 @@ import org.springframework.stereotype.Component;
 @Component
 public class TimeHelper {
 
-    private static final int HOURS = 24;
+	private static final int HOURS = 24;
 
-    private static Logger logger = Logger.getLogger(TimeHelper.class);
+	private static Logger logger = Logger.getLogger(TimeHelper.class);
+	private SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 
-    /**
-     * @return Get Current Time.
-     * @deprecated Use {@link TimeHelper#todayAsString()} instead
-     */
-    public static String getCurrentTime() {
-    	Date currentTime = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-        String dateString = formatter.format(currentTime);
-        return dateString;
-    }
-
-
-    public static String GetNextDay(String Time) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-
-
-        try {
-            Date currentTime = formatter.parse(Time);
-            currentTime.setHours(currentTime.getHours() + HOURS);
-            logger.debug("GetNextDay:" + currentTime);
-
-            return formatter.format(currentTime);
-        } catch (ParseException e) {
-            CIMLogger.error(e);
-        }
-
-        return formatter.format(new Date());
-
-    }
-
-    /**
-     * @return Get the before time.
-     * @deprecated Use {@link TimeHelper#dateAsStringBeforeTodayBy(int days)} instead
-     */
-    public static String GetBeforeTime(int day) {
-    	Date currentTime = new Date();
-        Date beforeTime = new Date();
-        beforeTime.setHours(currentTime.getHours() - day * HOURS);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-        String dateString = formatter.format(beforeTime);
-        return dateString;
-    }
-
-
-	public String todayAsString() {
-		Date currentTime = today();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-        String dateString = formatter.format(currentTime);
-        return dateString;
-		
+	/**
+	 * @return Get Current Time.
+	 * @deprecated Use {@link TimeHelper#todayAsString()} instead
+	 */
+	public static String getCurrentTime() {
+		Date currentTime = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+		String dateString = formatter.format(currentTime);
+		return dateString;
 	}
 
+	public static String GetNextDay(String Time) {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+
+		try {
+			Date currentTime = formatter.parse(Time);
+			currentTime.setHours(currentTime.getHours() + HOURS);
+			logger.debug("GetNextDay:" + currentTime);
+
+			return formatter.format(currentTime);
+		} catch (ParseException e) {
+			CIMLogger.error(e);
+		}
+
+		return formatter.format(new Date());
+
+	}
+
+	/**
+	 * @return Get the before time.
+	 * @deprecated Use {@link TimeHelper#dateAsStringBeforeTodayBy(int days)}
+	 *             instead
+	 */
+	public static String GetBeforeTime(int day) {
+		Date currentTime = new Date();
+		Date beforeTime = new Date();
+		beforeTime.setHours(currentTime.getHours() - day * HOURS);
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+		String dateString = formatter.format(beforeTime);
+		return dateString;
+	}
+
+	public String todayAsString() {
+		return formatter.format(today());
+
+	}
 
 	protected Date today() {
 		return new Date();
 	}
 
-
 	public String dateAsStringBeforeTodayBy(int days) {
-		Date currentTime = today();
-        Date beforeTime = today();
-        beforeTime.setHours(currentTime.getHours() - days * HOURS);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-        String dateString = formatter.format(beforeTime);
-        return dateString;
-		
+		return formatter.format(new Date(today().getTime() - TimeUnit.DAYS.toMillis(days)));
+
 	}
 
 }
