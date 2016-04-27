@@ -15,27 +15,40 @@
 package com.hp.ucmdb.adapter.util;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 
 public class CIMLogger {
 
-    private static final Logger ERROR_LOGGER = Logger
-            .getLogger(CIMLogger.class);
+	@Autowired
+	private Logger ERROR_LOGGER;
 
-    public static void error(String msg) {
-        ERROR_LOGGER.error(msg);
-    }
+	public static void error(String msg) {
+		new CIMLogger().ERROR_LOGGER.error(msg);
+	}
 
-    public static void error(String msg, Throwable t) {
-        ERROR_LOGGER.error(msg, t);
-    }
+	public static void error(String msg, Throwable t) {
+		new CIMLogger().ERROR_LOGGER.error(msg, t);
+	}
 
-    public static void error(Throwable t) {
-        throw new RuntimeException("Do no call this method on a Unit test");
-    	//error("", t);
-    }
+	/**
+	 * 
+	 * @param t
+	 * @deprecated Use {@link CIMLogger#logError(Throwable)} instead of
+	 */
+	public static void error(Throwable t) {
+		error("", t);
+	}
 
 	public void logError(Throwable throwable) {
-		CIMLogger.error(throwable);
-		
+		ERROR_LOGGER.error("",throwable);
+
 	}
+	
+	@Bean
+	protected Logger getLogger() {
+		return Logger.getLogger(getClass());
+	}
+	
+	
 }
