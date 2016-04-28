@@ -1,5 +1,7 @@
 package com.hp.ucmdb.adapter.service;
 
+import static org.apache.commons.lang.StringUtils.isNotEmpty;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
@@ -42,12 +44,12 @@ public class GroupCISHandler {
 	public GroupCISBean handleRequestParams(HttpServletRequest request) {
 		GroupCISBean bean = new GroupCISBean();
 		String batchId = request.getParameter(GroupCISHandler.BATCH_ID);
-		bean.setBatchId(StringUtils.isNotEmpty(batchId) ? batchId : "");
+		bean.setBatchId(isNotEmpty(batchId) ? batchId : "");
 		bean.setStartTime(request.getParameter(GroupCISHandler.START_TIME));
 		bean.setEndTime(request.getParameter(GroupCISHandler.END_TIME));
 
 		String page = request.getParameter(GroupCISHandler.PAGE);
-		if (page != null && page != "") {
+		if (isNotEmpty(page)) {
 			bean.setPage(Integer.parseInt(page));
 		}
 		return bean;
