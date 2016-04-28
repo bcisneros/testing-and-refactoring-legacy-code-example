@@ -6,7 +6,8 @@ import java.util.ArrayList;
 
 public class GroupCISBean {
 
-    public static final int DEFAULT_INITIAL_PAGE_VALUE = 1;
+    public static final String NO_ELEMENTS_MESSAGE = "Showing 0 of 0";
+	public static final int DEFAULT_INITIAL_PAGE_VALUE = 1;
         private String id;
     private String batchId;
     private String startTime;
@@ -86,7 +87,6 @@ public class GroupCISBean {
      * @return the startIndex
      */
     public int getStartIndex() {
-        int page = getPage();
         return (page - 1) * PageHelper.PER_PAGE_COUNT + 1;
     }
 
@@ -124,7 +124,7 @@ public class GroupCISBean {
     public String getCountTitle() {
         StringBuilder output = new StringBuilder();
         if (totalCount <= 0) {
-            output.append("Showing 0 of 0");
+            output.append(NO_ELEMENTS_MESSAGE);
         } else {
             output.append("Showing ");
             output.append(getStartIndex());
