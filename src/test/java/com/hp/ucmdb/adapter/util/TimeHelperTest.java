@@ -3,6 +3,7 @@ package com.hp.ucmdb.adapter.util;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+import java.text.ParseException;
 import java.util.Date;
 
 import org.junit.Before;
@@ -49,6 +50,11 @@ public class TimeHelperTest {
 		protected Date today() {
 			return today;
 		}
+
+		@Override
+		protected void logError(ParseException e) {
+		}
+		
 		
 	}
 

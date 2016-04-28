@@ -91,10 +91,14 @@ public class TimeHelper {
 		try {
 			return formatter.format(new Date(formatter.parse(aDate).getTime() + TimeUnit.DAYS.toMillis(ONE_DAY)));
 		} catch (ParseException e) {
-			CIMLogger.error(e);
+			logError(e);
 		}
 
 		return formatter.format(today());
+	}
+
+	protected void logError(ParseException e) {
+		CIMLogger.error(e);
 	}
 
 	protected Date today() {
