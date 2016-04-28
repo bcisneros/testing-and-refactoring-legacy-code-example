@@ -83,18 +83,22 @@ public class TimeHelper {
 	}
 
 	public String dateBeforeTodayBy(int days) {
-		return formatter.format(new Date(today().getTime() - TimeUnit.DAYS.toMillis(days)));
+		return formatter.format(new Date(millisecondsBetween(today(), -days)));
 
 	}
 
 	public String nextDateOf(String aDate) {
 		try {
-			return formatter.format(new Date(formatter.parse(aDate).getTime() + TimeUnit.DAYS.toMillis(ONE_DAY)));
+			return formatter.format(new Date(millisecondsBetween(formatter.parse(aDate), ONE_DAY)));
 		} catch (ParseException e) {
 			logError(e);
 		}
 
 		return formatter.format(today());
+	}
+
+	private long millisecondsBetween(Date aDate, int numberOfDays) {
+		return aDate.getTime() + TimeUnit.DAYS.toMillis(numberOfDays);
 	}
 
 	protected void logError(ParseException e) {
