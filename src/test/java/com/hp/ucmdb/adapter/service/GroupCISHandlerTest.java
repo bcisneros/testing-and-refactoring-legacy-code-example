@@ -141,7 +141,7 @@ public class GroupCISHandlerTest {
 	@Test
 	@Parameters(method="invalidPageValues")
 	public void should_set_page_to_one_when_page_parameter_has_invalid_format(String description, String pageValue) throws Exception {
-		when(request.getParameter(PAGE)).thenReturn(pageValue/*NOT_A_NUMBER_STRING*/);
+		when(request.getParameter(PAGE)).thenReturn(pageValue);
 		GroupCISBean bean = handler.handleRequestParams(request);
 		assertThat(description, bean.getPage(), is(1));
 		verify(logger, times(1)).warn(anyString(), any(Throwable.class));
