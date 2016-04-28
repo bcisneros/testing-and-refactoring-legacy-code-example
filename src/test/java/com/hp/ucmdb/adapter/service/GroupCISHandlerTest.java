@@ -34,12 +34,14 @@ import junitparams.Parameters;
 @RunWith(JUnitParamsRunner.class)
 public class GroupCISHandlerTest {
 
+	private static final String NOT_A_NUMBER_STRING = "not a number";
 	private static final String ANY_STRING = "Hello Skippy!";
 	private static final String NULL_STRING = null;
 	private static final String ANY_BATCH_ID = "Batch id";
 	private static final String EMPTY_STRING = "";
 	private static final String ANY_START_TIME = null;
 	private static final String ANY_END_TIME = null;
+	private static final String NEW_STRING_OBJECT = new String();
 	
 	@Mock
 	private TimeHelper timeHelper;
@@ -137,32 +139,21 @@ public class GroupCISHandlerTest {
 	}
 	
 	@Test
-	public void should_set_page_to_one_when_parameter_is_null() throws Exception {
-		when(request.getParameter(PAGE)).thenReturn(null);
-		GroupCISBean bean = handler.handleRequestParams(request);
-		assertThat(bean.getPage(), is(1));
-	}
-	
-	@Test
-	public void should_set_page_to_one_when_parameter_is_empty() throws Exception {
-		when(request.getParameter(PAGE)).thenReturn(EMPTY_STRING);
-		GroupCISBean bean = handler.handleRequestParams(request);
-		assertThat(bean.getPage(), is(1));
-	}
-	
-	@Test
-	public void should_set_page_to_one_when_parameter_is_new_empty_string() throws Exception {
-		when(request.getParameter(PAGE)).thenReturn(new String());
-		GroupCISBean bean = handler.handleRequestParams(request);
-		assertThat(bean.getPage(), is(1));
-	}
-	
-	@Test
-	public void should_set_page_to_one_when_page_parameter_is_invalid_format() throws Exception {
-		when(request.getParameter(PAGE)).thenReturn("not a number");
+	@Parameters(method="invalidPageValues")
+	public void should_set_page_to_one_when_page_parameter_has_invalid_format(String pageValue) throws Exception {
+		when(request.getParameter(PAGE)).thenReturn(pageValue/*NOT_A_NUMBER_STRING*/);
 		GroupCISBean bean = handler.handleRequestParams(request);
 		assertThat(bean.getPage(), is(1));
 		verify(logger, times(1)).warn(anyString(), any(Throwable.class));
+	}
+	
+	protected Object[] invalidPageValues() {
+		return new Object[]{
+				NOT_A_NUMBER_STRING,
+				EMPTY_STRING,
+				NEW_STRING_OBJECT,
+				NULL_STRING
+		};
 	}
 	
 }

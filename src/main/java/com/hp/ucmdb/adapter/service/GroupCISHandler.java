@@ -52,12 +52,10 @@ public class GroupCISHandler {
 		bean.setEndTime(request.getParameter(GroupCISHandler.END_TIME));
 
 		String page = request.getParameter(GroupCISHandler.PAGE);
-		if (isNotEmpty(page)) {
-			try {
-				bean.setPage(Integer.parseInt(page));
-			} catch (NumberFormatException e) {
-				logger.warn("Skip this exception. Page was set up to 1 by default", e);
-			}
+		try {
+			bean.setPage(Integer.parseInt(page));
+		} catch (NumberFormatException e) {
+			logger.warn("Skip this exception. Page was set up to 1 by default", e);
 		}
 		return bean;
 	}
@@ -69,10 +67,10 @@ public class GroupCISHandler {
 		}
 		return true;
 	}
-	
+
 	@Bean
 	private Logger getLogger() {
 		return Logger.getLogger(getClass());
 	}
-	
+
 }
