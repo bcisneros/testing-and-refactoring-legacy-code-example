@@ -32,11 +32,10 @@ public class TimeHelper {
      * @return Get Current Time.
      */
     public static String getCurrentTime() {
-    	throw new RuntimeException("Do not run getCurrentTime() from a Unit test");
-//        Date currentTime = new Date();
-//        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-//        String dateString = formatter.format(currentTime);
-//        return dateString;
+        Date currentTime = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        String dateString = formatter.format(currentTime);
+        return dateString;
     }
 
 
@@ -62,25 +61,33 @@ public class TimeHelper {
      * @return Get the before time.
      */
     public static String GetBeforeTime(int day) {
-    	throw new RuntimeException("Do not run GetBeforeTime from a Unit test");
-        /*Date currentTime = new Date();
+        Date currentTime = new Date();
         Date beforeTime = new Date();
         beforeTime.setHours(currentTime.getHours() - day * HOURS);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
         String dateString = formatter.format(beforeTime);
-        return dateString;*/
+        return dateString;
     }
 
 
-	public String today() {
-		return TimeHelper.getCurrentTime();
-		
+	public String todayAsString() {
+		Date currentTime = today();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        String dateString = formatter.format(currentTime);
+        return dateString;
 	}
-
 
 	public String dateBeforeTodayBy(int days) {
-		return TimeHelper.GetBeforeTime(days);
+		Date currentTime = today();
+        Date beforeTime = today();
+        beforeTime.setHours(currentTime.getHours() - days * HOURS);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        String dateString = formatter.format(beforeTime);
+        return dateString;
 		
 	}
 
+	protected Date today() {
+		return new Date();
+	}
 }

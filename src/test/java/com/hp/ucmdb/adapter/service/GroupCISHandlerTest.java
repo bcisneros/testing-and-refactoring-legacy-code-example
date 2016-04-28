@@ -85,7 +85,7 @@ public class GroupCISHandlerTest {
 	@Test
 	public void should_set_up_end_time() throws Exception {
 		today = "2012/02/15";
-		when(timeHelper.today()).thenReturn(today);
+		when(timeHelper.todayAsString()).thenReturn(today);
 		GroupCISBean bean = handler.handleDefaultParams();
 		assertThat(bean.getEndTime(), is(today));
 	}

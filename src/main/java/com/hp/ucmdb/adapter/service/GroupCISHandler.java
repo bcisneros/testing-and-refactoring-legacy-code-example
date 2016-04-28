@@ -37,7 +37,7 @@ public class GroupCISHandler {
 	public GroupCISBean handleDefaultParams() {
 		GroupCISBean bean = new GroupCISBean();
 		bean.setStartTime(timeHelper.dateBeforeTodayBy(GroupCISHandler.BEFORE_TIME));
-		bean.setEndTime(timeHelper.today());
+		bean.setEndTime(timeHelper.todayAsString());
 		bean.setPage(1);
 		return bean;
 	}
