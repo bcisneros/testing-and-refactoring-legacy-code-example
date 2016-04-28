@@ -25,62 +25,73 @@ import org.springframework.stereotype.Component;
 @Component
 public class TimeHelper {
 
-    private static final int HOURS = 24;
-    private SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+	private static final int HOURS = 24;
+	private SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 
-    private static Logger logger = Logger.getLogger(TimeHelper.class);
+	private static Logger logger = Logger.getLogger(TimeHelper.class);
 
-    /**
-     * @return Get Current Time.
-     * @deprecated Use {@link TimeHelper#todayAsString()} instead of
-     */
-    public static String getCurrentTime() {
-        Date currentTime = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-        String dateString = formatter.format(currentTime);
-        return dateString;
-    }
+	/**
+	 * @return Get Current Time.
+	 * @deprecated Use {@link TimeHelper#todayAsString()} instead of
+	 */
+	public static String getCurrentTime() {
+		Date currentTime = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+		String dateString = formatter.format(currentTime);
+		return dateString;
+	}
 
+	public static String GetNextDay(String Time) {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 
-    public static String GetNextDay(String Time) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+		try {
+			Date currentTime = formatter.parse(Time);
+			currentTime.setHours(currentTime.getHours() + HOURS);
+			logger.debug("GetNextDay:" + currentTime);
 
+			return formatter.format(currentTime);
+		} catch (ParseException e) {
+			CIMLogger.error(e);
+		}
 
-        try {
-            Date currentTime = formatter.parse(Time);
-            currentTime.setHours(currentTime.getHours() + HOURS);
-            logger.debug("GetNextDay:" + currentTime);
+		return formatter.format(new Date());
 
-            return formatter.format(currentTime);
-        } catch (ParseException e) {
-            CIMLogger.error(e);
-        }
+	}
 
-        return formatter.format(new Date());
-
-    }
-
-    /**
-     * @return Get the before time.
-     * @deprecated Use {@link TimeHelper#dateBeforeTodayBy(int)} instead
-     */
-    public static String GetBeforeTime(int day) {
-        Date currentTime = new Date();
-        Date beforeTime = new Date();
-        beforeTime.setHours(currentTime.getHours() - day * HOURS);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-        String dateString = formatter.format(beforeTime);
-        return dateString;
-    }
-
+	/**
+	 * @return Get the before time.
+	 * @deprecated Use {@link TimeHelper#dateBeforeTodayBy(int)} instead
+	 */
+	public static String GetBeforeTime(int day) {
+		Date currentTime = new Date();
+		Date beforeTime = new Date();
+		beforeTime.setHours(currentTime.getHours() - day * HOURS);
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+		String dateString = formatter.format(beforeTime);
+		return dateString;
+	}
 
 	public String todayAsString() {
 		return formatter.format(today());
 	}
 
 	public String dateBeforeTodayBy(int days) {
-        return formatter.format(new Date(today().getTime() - TimeUnit.DAYS.toMillis(days)));
-		
+		return formatter.format(new Date(today().getTime() - TimeUnit.DAYS.toMillis(days)));
+
+	}
+
+	public String nextDateOf(String aDate) {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+		try {
+			Date currentTime = formatter.parse(aDate);
+			currentTime.setHours(currentTime.getHours() + HOURS);
+			logger.debug("GetNextDay:" + currentTime);
+			return formatter.format(currentTime);
+		} catch (ParseException e) {
+			CIMLogger.error(e);
+		}
+
+		return formatter.format(today());
 	}
 
 	protected Date today() {
