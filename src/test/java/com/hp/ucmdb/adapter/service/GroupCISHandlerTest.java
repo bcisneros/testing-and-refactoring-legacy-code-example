@@ -140,19 +140,19 @@ public class GroupCISHandlerTest {
 	
 	@Test
 	@Parameters(method="invalidPageValues")
-	public void should_set_page_to_one_when_page_parameter_has_invalid_format(String pageValue) throws Exception {
+	public void should_set_page_to_one_when_page_parameter_has_invalid_format(String description, String pageValue) throws Exception {
 		when(request.getParameter(PAGE)).thenReturn(pageValue/*NOT_A_NUMBER_STRING*/);
 		GroupCISBean bean = handler.handleRequestParams(request);
-		assertThat(bean.getPage(), is(1));
+		assertThat(description, bean.getPage(), is(1));
 		verify(logger, times(1)).warn(anyString(), any(Throwable.class));
 	}
 	
 	protected Object[] invalidPageValues() {
 		return new Object[]{
-				NOT_A_NUMBER_STRING,
-				EMPTY_STRING,
-				NEW_STRING_OBJECT,
-				NULL_STRING
+				new Object[]{"It is not a number", NOT_A_NUMBER_STRING},
+				new Object[]{"It is an empty String", EMPTY_STRING},
+				new Object[]{"It is an new empty String", NEW_STRING_OBJECT},
+				new Object[]{"It is an null String", NULL_STRING},
 		};
 	}
 	
