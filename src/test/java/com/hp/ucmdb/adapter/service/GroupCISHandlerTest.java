@@ -6,7 +6,7 @@ import static com.hp.ucmdb.adapter.service.GroupCISHandler.END_TIME;
 import static com.hp.ucmdb.adapter.service.GroupCISHandler.PAGE;
 import static com.hp.ucmdb.adapter.service.GroupCISHandler.START_TIME;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -31,12 +31,16 @@ public class GroupCISHandlerTest {
 
 	private static final String ANY_STRING = "Hello Skippy!";
 	private static final String NULL_STRING = null;
+	private static final String ANY_BATCH_ID = "Batch id";
+	private static final String EMPTY_STRING = "";
+	private static final String ANY_START_TIME = null;
+	private static final String ANY_END_TIME = null;
 	
 	@Mock
 	private TimeHelper timeHelper;
 	
 	@InjectMocks
-	private GroupCISHandler realHandler = new GroupCISHandler();
+	private GroupCISHandler handler = new GroupCISHandler();
 	
 	private HttpServletRequest request = mock(HttpServletRequest.class);
 	
@@ -52,20 +56,20 @@ public class GroupCISHandlerTest {
 	@Parameters({ BATCH_ID, START_TIME, END_TIME, PAGE })
 	public void should_return_false_when_any_parameter_is_not_null(String parameter) {
 		when(request.getParameter(parameter)).thenReturn(ANY_STRING);
-		assertThat(realHandler.shouldGenerateDefaultBean(request), is(false));
+		assertThat(handler.shouldGenerateDefaultBean(request), is(false));
 	}
 
 	@Test
 	public void should_return_true_when_all_parameters_are_null() {
 		when(request.getParameter(Mockito.anyString())).thenReturn(NULL_STRING);
-		assertThat(realHandler.shouldGenerateDefaultBean(request), is(true));
+		assertThat(handler.shouldGenerateDefaultBean(request), is(true));
 	}
 
 	@Test
 	public void should_set_up_start_time() throws Exception {
 		startTime = "2012/02/15";
 		when(timeHelper.dateBeforeTodayBy(BEFORE_TIME)).thenReturn(startTime);
-		GroupCISBean bean = realHandler.handleDefaultParams();
+		GroupCISBean bean = handler.handleDefaultParams();
 		assertThat(bean.getStartTime(), is(startTime));
 	}
 	
@@ -73,13 +77,69 @@ public class GroupCISHandlerTest {
 	public void should_set_up_end_time() throws Exception {
 		today = "2012/02/15";
 		when(timeHelper.today()).thenReturn(today);
-		GroupCISBean bean = realHandler.handleDefaultParams();
+		GroupCISBean bean = handler.handleDefaultParams();
 		assertThat(bean.getEndTime(), is(today));
 	}
 	
 	@Test
 	public void should_set_up_page() throws Exception {
-		GroupCISBean bean = realHandler.handleDefaultParams();
+		GroupCISBean bean = handler.handleDefaultParams();
+		assertThat(bean.getPage(), is(1));
+	}
+	
+	@Test
+	public void should_set_batch_id_from_request_parameter() throws Exception {
+		when(request.getParameter(BATCH_ID)).thenReturn(ANY_BATCH_ID);
+		GroupCISBean bean = handler.handleRequestParams(request);
+		assertThat(bean.getBatchId(), is(ANY_BATCH_ID));
+	}
+	
+	@Test
+	public void should_set_batch_id_to_empty_string_where_parameter_is_null() throws Exception {
+		when(request.getParameter(BATCH_ID)).thenReturn(null);
+		GroupCISBean bean = handler.handleRequestParams(request);
+		assertThat(bean.getBatchId(), is(EMPTY_STRING));
+	}
+	
+	@Test
+	public void should_set_batch_id_to_empty_string_where_parameter_is_empty() throws Exception {
+		when(request.getParameter(BATCH_ID)).thenReturn(EMPTY_STRING);
+		GroupCISBean bean = handler.handleRequestParams(request);
+		assertThat(bean.getBatchId(), is(EMPTY_STRING));
+	}
+	
+	@Test
+	public void should_set_start_time_from_request_parameter() throws Exception {
+		when(request.getParameter(START_TIME)).thenReturn(ANY_START_TIME);
+		GroupCISBean bean = handler.handleRequestParams(request);
+		assertThat(bean.getStartTime(), is(ANY_START_TIME));
+	}
+	
+	@Test
+	public void should_set_end_time_from_request_parameter() throws Exception {
+		when(request.getParameter(END_TIME)).thenReturn(ANY_END_TIME);
+		GroupCISBean bean = handler.handleRequestParams(request);
+		assertThat(bean.getEndTime(), is(ANY_END_TIME));
+	}
+	
+	@Test
+	public void should_set_page_from_request_parameter() throws Exception {
+		when(request.getParameter(PAGE)).thenReturn("10");
+		GroupCISBean bean = handler.handleRequestParams(request);
+		assertThat(bean.getPage(), is(10));
+	}
+	
+	@Test
+	public void should_set_page_to_one_when_parameter_is_null() throws Exception {
+		when(request.getParameter(PAGE)).thenReturn(null);
+		GroupCISBean bean = handler.handleRequestParams(request);
+		assertThat(bean.getPage(), is(1));
+	}
+	
+	@Test
+	public void should_set_page_to_one_when_parameter_is_empty() throws Exception {
+		when(request.getParameter(PAGE)).thenReturn(EMPTY_STRING);
+		GroupCISBean bean = handler.handleRequestParams(request);
 		assertThat(bean.getPage(), is(1));
 	}
 	
