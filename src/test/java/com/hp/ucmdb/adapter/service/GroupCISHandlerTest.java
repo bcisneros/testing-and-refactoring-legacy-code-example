@@ -6,13 +6,18 @@ import static com.hp.ucmdb.adapter.service.GroupCISHandler.END_TIME;
 import static com.hp.ucmdb.adapter.service.GroupCISHandler.PAGE;
 import static com.hp.ucmdb.adapter.service.GroupCISHandler.START_TIME;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,6 +43,8 @@ public class GroupCISHandlerTest {
 	
 	@Mock
 	private TimeHelper timeHelper;
+	@Mock
+	private Logger logger;
 	
 	@InjectMocks
 	private GroupCISHandler handler = new GroupCISHandler();
@@ -148,6 +155,14 @@ public class GroupCISHandlerTest {
 		when(request.getParameter(PAGE)).thenReturn(new String());
 		GroupCISBean bean = handler.handleRequestParams(request);
 		assertThat(bean.getPage(), is(1));
+	}
+	
+	@Test
+	public void should_set_page_to_one_when_page_parameter_is_invalid_format() throws Exception {
+		when(request.getParameter(PAGE)).thenReturn("not a number");
+		GroupCISBean bean = handler.handleRequestParams(request);
+		assertThat(bean.getPage(), is(1));
+		verify(logger, times(1)).warn(anyString(), any(Throwable.class));
 	}
 	
 }

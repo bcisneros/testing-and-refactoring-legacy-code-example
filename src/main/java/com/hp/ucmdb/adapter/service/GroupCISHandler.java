@@ -4,8 +4,9 @@ import static org.apache.commons.lang.StringUtils.isNotEmpty;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 
 import com.hp.ucmdb.adapter.bean.GroupCISBean;
 import com.hp.ucmdb.adapter.util.TimeHelper;
@@ -21,6 +22,8 @@ public class GroupCISHandler {
 
 	@Autowired
 	private TimeHelper timeHelper;
+	@Autowired
+	private Logger logger;
 
 	/**
 	 */
@@ -50,7 +53,11 @@ public class GroupCISHandler {
 
 		String page = request.getParameter(GroupCISHandler.PAGE);
 		if (isNotEmpty(page)) {
-			bean.setPage(Integer.parseInt(page));
+			try {
+				bean.setPage(Integer.parseInt(page));
+			} catch (NumberFormatException e) {
+				logger.warn("Skip this exception. Page was set up to 1 by default", e);
+			}
 		}
 		return bean;
 	}
@@ -62,4 +69,10 @@ public class GroupCISHandler {
 		}
 		return true;
 	}
+	
+	@Bean
+	private Logger getLogger() {
+		return Logger.getLogger(getClass());
+	}
+	
 }
