@@ -14,12 +14,14 @@
  */
 package com.hp.ucmdb.adapter.util;
 
-import org.apache.log4j.Logger;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
+
+@Component
 public class TimeHelper {
 
     private static final int HOURS = 24;
@@ -68,5 +70,17 @@ public class TimeHelper {
         String dateString = formatter.format(beforeTime);
         return dateString;*/
     }
+
+
+	public String today() {
+		return TimeHelper.getCurrentTime();
+		
+	}
+
+
+	public String dateBeforeTodayBy(int days) {
+		return TimeHelper.GetBeforeTime(days);
+		
+	}
 
 }
