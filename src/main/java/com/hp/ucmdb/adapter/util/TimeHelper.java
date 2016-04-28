@@ -17,6 +17,7 @@ package com.hp.ucmdb.adapter.util;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -25,11 +26,13 @@ import org.springframework.stereotype.Component;
 public class TimeHelper {
 
     private static final int HOURS = 24;
+    private SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 
     private static Logger logger = Logger.getLogger(TimeHelper.class);
 
     /**
      * @return Get Current Time.
+     * @deprecated Use {@link TimeHelper#todayAsString()} instead of
      */
     public static String getCurrentTime() {
         Date currentTime = new Date();
@@ -59,6 +62,7 @@ public class TimeHelper {
 
     /**
      * @return Get the before time.
+     * @deprecated Use {@link TimeHelper#dateBeforeTodayBy(int)} instead
      */
     public static String GetBeforeTime(int day) {
         Date currentTime = new Date();
@@ -71,19 +75,11 @@ public class TimeHelper {
 
 
 	public String todayAsString() {
-		Date currentTime = today();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-        String dateString = formatter.format(currentTime);
-        return dateString;
+		return formatter.format(today());
 	}
 
 	public String dateBeforeTodayBy(int days) {
-		Date currentTime = today();
-        Date beforeTime = today();
-        beforeTime.setHours(currentTime.getHours() - days * HOURS);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-        String dateString = formatter.format(beforeTime);
-        return dateString;
+        return formatter.format(new Date(today().getTime() - TimeUnit.DAYS.toMillis(days)));
 		
 	}
 
