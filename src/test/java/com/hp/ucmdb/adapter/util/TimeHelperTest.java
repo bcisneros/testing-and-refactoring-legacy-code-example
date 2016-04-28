@@ -2,26 +2,40 @@ package com.hp.ucmdb.adapter.util;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
-import java.text.ParseException;
 import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 
 public class TimeHelperTest {
 
 	private static final int ONE_DAY = 1;
-	private TimeHelper timeHelper = new TestableTimeHelper();
+	
+	@Mock
+	private Clock clock;
+	
+	@Mock
+	private CIMLogger cimLogger;
+	
+	@InjectMocks
+	private TimeHelper timeHelper;
+	
 	public Date today;
 
 	@Before
 	public void setup() {
+		initMocks(this);
 		today = java.sql.Date.valueOf("2010-09-17");
+		when(clock.today()).thenReturn(today);
 	}
 	
 	@Test
-	public void should_throw_an_exception_when_today_is_called() {
+	public void should_return_the_actual_date_in_given_format() {
 		assertThat(timeHelper.todayAsString(), is("2010/09/17"));
 	}
 	
@@ -42,20 +56,6 @@ public class TimeHelperTest {
 		String invalidDate = "2010-09-25";
 		String now = "2010/09/17";
 		assertThat(timeHelper.nextDateOf(invalidDate), is(now));
-	}
-	
-	private class TestableTimeHelper extends TimeHelper {
-
-		@Override
-		protected Date today() {
-			return today;
-		}
-
-		@Override
-		protected void logError(ParseException e) {
-		}
-		
-		
 	}
 
 }

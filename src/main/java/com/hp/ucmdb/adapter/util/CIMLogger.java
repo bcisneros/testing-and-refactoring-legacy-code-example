@@ -15,7 +15,9 @@
 package com.hp.ucmdb.adapter.util;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CIMLogger {
 
     private static final Logger ERROR_LOGGER = Logger

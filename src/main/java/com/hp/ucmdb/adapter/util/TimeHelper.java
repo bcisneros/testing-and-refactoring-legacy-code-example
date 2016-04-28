@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -30,6 +31,9 @@ public class TimeHelper {
 	private SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 
 	private static Logger logger = Logger.getLogger(TimeHelper.class);
+	
+	@Autowired
+	private Clock clock;
 
 	/**
 	 * @return Get Current Time.
@@ -79,11 +83,11 @@ public class TimeHelper {
 	}
 
 	public String todayAsString() {
-		return formatter.format(today());
+		return formatter.format(clock.today());
 	}
 
 	public String dateBeforeTodayBy(int days) {
-		return formatter.format(new Date(millisecondsBetween(today(), -days)));
+		return formatter.format(new Date(millisecondsBetween(clock.today(), -days)));
 
 	}
 
@@ -94,7 +98,7 @@ public class TimeHelper {
 			logError(e);
 		}
 
-		return formatter.format(today());
+		return formatter.format(clock.today());
 	}
 
 	private long millisecondsBetween(Date aDate, int numberOfDays) {
