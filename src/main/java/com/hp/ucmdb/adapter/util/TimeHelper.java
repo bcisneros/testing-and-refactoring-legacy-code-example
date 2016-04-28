@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class TimeHelper {
 
+	private static final int ONE_DAY = 1;
 	private static final int HOURS = 24;
 	private SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 
@@ -41,6 +42,12 @@ public class TimeHelper {
 		return dateString;
 	}
 
+	/**
+	 * 
+	 * @param Time
+	 * @return
+	 * @deprecated Use {@link TimeHelper#nextDateOf(String)} instead
+	 */
 	public static String GetNextDay(String Time) {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 
@@ -81,12 +88,8 @@ public class TimeHelper {
 	}
 
 	public String nextDateOf(String aDate) {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 		try {
-			Date currentTime = formatter.parse(aDate);
-			currentTime.setHours(currentTime.getHours() + HOURS);
-			logger.debug("GetNextDay:" + currentTime);
-			return formatter.format(currentTime);
+			return formatter.format(new Date(formatter.parse(aDate).getTime() + TimeUnit.DAYS.toMillis(ONE_DAY)));
 		} catch (ParseException e) {
 			CIMLogger.error(e);
 		}
