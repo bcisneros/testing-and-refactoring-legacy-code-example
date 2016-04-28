@@ -2,6 +2,9 @@ package com.hp.ucmdb.adapter.util;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -42,7 +45,6 @@ public class TimeHelperTest {
 	@Test
 	public void should_throw_an_exception_when_date_before_today_by_method() throws Exception {
 		assertThat(timeHelper.dateBeforeTodayBy(ONE_DAY), is("2010/09/16"));
-		
 	}
 	
 	@Test
@@ -56,6 +58,7 @@ public class TimeHelperTest {
 		String invalidDate = "2010-09-25";
 		String now = "2010/09/17";
 		assertThat(timeHelper.nextDateOf(invalidDate), is(now));
+		verify(cimLogger, times(1)).logError(any(Throwable.class));
 	}
 
 }

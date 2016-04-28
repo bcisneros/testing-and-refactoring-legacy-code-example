@@ -34,6 +34,9 @@ public class TimeHelper {
 	
 	@Autowired
 	private Clock clock;
+	
+	@Autowired
+	private CIMLogger cimLogger;
 
 	/**
 	 * @return Get Current Time.
@@ -95,7 +98,7 @@ public class TimeHelper {
 		try {
 			return formatter.format(new Date(millisecondsBetween(formatter.parse(aDate), ONE_DAY)));
 		} catch (ParseException e) {
-			logError(e);
+			cimLogger.logError(e);
 		}
 
 		return formatter.format(clock.today());
@@ -105,11 +108,4 @@ public class TimeHelper {
 		return aDate.getTime() + TimeUnit.DAYS.toMillis(numberOfDays);
 	}
 
-	protected void logError(ParseException e) {
-		CIMLogger.error(e);
-	}
-
-	protected Date today() {
-		return new Date();
-	}
 }
